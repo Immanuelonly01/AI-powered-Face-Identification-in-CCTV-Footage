@@ -1,17 +1,23 @@
 # AutomatedPersonSearch/backend/app.py
+
 import os
 import time
 from flask import Flask, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 from flask_cors import CORS 
 
-from .config import UPLOAD_FOLDER, CROPS_FOLDER, REPORTS_FOLDER, FLASK_SECRET_KEY
-from .database_module import create_tables
-from .video_processing.video_utils import get_reference_embedding, process_video_and_search
-from .report_generation.generate_report import generate_report
+# --- IMPORT FIX: Changed relative imports (from .module) to absolute imports (from module) ---
+# This assumes config.py, database_module.py, and the other top-level modules 
+# and packages (video_processing, report_generation) are siblings to app.py in the 'backend' directory.
+from config import UPLOAD_FOLDER, CROPS_FOLDER, REPORTS_FOLDER, FLASK_SECRET_KEY
+from database_module import create_tables
+from video_processing.video_utils import get_reference_embedding, process_video_and_search
+from report_generation.generate_report import generate_report
 
 # --- APP SETUP ---
 # Configure static folder to serve 'static/crops' for preview images
+# Note: CROPS_FOLDER.parent.parent / 'static' likely points to the root 'static' folder 
+# which is sibling to 'backend' (e.g., D:/Projects/Final Year Project/implement/static)
 app = Flask(__name__, static_url_path='/static', static_folder=str(CROPS_FOLDER.parent.parent / 'static')) 
 app.config['UPLOAD_FOLDER'] = str(UPLOAD_FOLDER)
 app.secret_key = FLASK_SECRET_KEY
@@ -69,9 +75,9 @@ def download_report(video_filename, report_type):
     if report_path and os.path.exists(report_path):
         # send_file requires absolute path
         return send_file(report_path, 
-                         as_attachment=True, 
-                         mimetype=mime_type, 
-                         download_name=os.path.basename(report_path))
+                          as_attachment=True, 
+                          mimetype=mime_type, 
+                          download_name=os.path.basename(report_path))
     else:
         return jsonify({"error": mime_type if mime_type else "Report generation failed."}), 404
 
