@@ -1,0 +1,222 @@
+/* ===================== GLOBAL STYLES & FONT ===================== */
+:root {
+  --color-dark: #0f121a;
+  --color-card: #1b1f2b;
+  --color-primary-neon: #00ffff; /* Cyan/Blue Neon */
+  --color-secondary-neon: #ff00ff; /* Magenta/Pink Neon */
+  --color-text-light: #e0e0e0;
+}
+
+body {
+  font-family: 'Consolas', 'Courier New', monospace; /* Tech/Code font */
+  background: var(--color-dark); 
+  margin: 0;
+  padding: 0;
+  color: var(--color-text-light); 
+}
+
+.main-content {
+    /* Ensures footer is at the bottom */
+    min-height: calc(100vh - 150px); 
+    padding: 20px 0;
+}
+
+/* Base card styling for major components */
+.card-glow {
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.15);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* ===================== TYPOGRAPHY & NEON EFFECT ===================== */
+h1, h2, h3 {
+  color: var(--color-primary-neon);
+  /* Intense neon glow effect */
+  text-shadow: 0 0 5px var(--color-primary-neon), 0 0 15px rgba(0, 255, 255, 0.6);
+}
+
+.neon-text {
+    color: var(--color-primary-neon) !important;
+    text-shadow: 0 0 5px var(--color-primary-neon), 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* ===================== NAVBAR ===================== */
+.navbar {
+  background-color: #12182b !important;
+  border-bottom: 2px solid var(--color-primary-neon);
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.nav-link {
+    color: var(--color-text-light) !important;
+    transition: all 0.3s ease;
+    padding: 10px 15px !important;
+    border-radius: 6px;
+}
+
+.nav-link:hover {
+  color: var(--color-primary-neon) !important;
+  background-color: rgba(0, 255, 255, 0.1);
+  text-shadow: 0 0 3px var(--color-primary-neon);
+}
+
+/* ===================== BUTTONS (NEON CTA) ===================== */
+.btn-neon-primary {
+  background-color: var(--color-primary-neon);
+  color: var(--color-dark);
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 0 8px var(--color-primary-neon);
+  transition: all 0.3s ease;
+}
+
+.btn-neon-primary:hover:not(:disabled) {
+  background-color: #0ff;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #0ff, 0 0 25px rgba(0, 255, 255, 0.6);
+  color: var(--color-dark);
+}
+
+.btn-neon-secondary {
+    background-color: transparent;
+    color: var(--color-secondary-neon);
+    border: 2px solid var(--color-secondary-neon);
+    font-weight: bold;
+    box-shadow: 0 0 8px var(--color-secondary-neon);
+    transition: all 0.3s ease;
+}
+
+.btn-neon-secondary:hover:not(:disabled) {
+    background-color: rgba(255, 0, 255, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px var(--color-secondary-neon), 0 0 25px rgba(255, 0, 255, 0.6);
+    color: var(--color-secondary-neon);
+}
+
+.hover-scale {
+    transition: transform 0.2s;
+}
+
+.hover-scale:hover {
+    transform: scale(1.03);
+}
+
+/* ===================== HOME PAGE SPECIFIC ===================== */
+.hero-section {
+    /* Uses the card-glow base style */
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.15);
+}
+
+/* Feature Cards */
+.features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.feature-card {
+  background: var(--color-card);
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  width: 250px;
+  transition: transform 0.4s, box-shadow 0.4s;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.5); /* Stronger glow on hover */
+  border-color: var(--color-primary-neon);
+}
+
+.feature-icon {
+  font-size: 3.5rem;
+  color: var(--color-secondary-neon);
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px var(--color-secondary-neon);
+}
+
+.highlight-section {
+  background: #12182b;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.2) inset;
+  border: 1px solid rgba(255, 0, 255, 0.3);
+}
+
+.tech-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.tech-list li {
+    font-size: 1.1rem;
+    color: #ccc;
+    background: #0f121a;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 255, 0.4);
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
+}
+
+/* ===================== FORMS & INPUTS ===================== */
+.form-control-dark {
+  background-color: #0f121a !important;
+  border: 1px solid var(--color-primary-neon);
+  color: var(--color-text-light) !important;
+  box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+.form-control-dark:focus {
+  border-color: var(--color-secondary-neon);
+  box-shadow: 0 0 8px var(--color-secondary-neon);
+  background-color: #12182b !important;
+  color: var(--color-text-light) !important;
+}
+
+/* ===================== DASHBOARD TABLE ===================== */
+.table-dark {
+    --bs-table-bg: #12182b;
+    --bs-table-striped-bg: #1b1f2b;
+    --bs-table-hover-bg: #2a3040;
+    --bs-table-color: var(--color-text-light);
+}
+
+.table thead th {
+    color: var(--color-primary-neon);
+    border-bottom: 2px solid var(--color-primary-neon);
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background: #0b0f17;
+  color: var(--color-text-light);
+  padding: 25px 0;
+  border-top: 2px solid var(--color-secondary-neon);
+  box-shadow: 0 -4px 15px rgba(255, 0, 255, 0.2);
+}
+
+.footer a {
+  color: var(--color-secondary-neon);
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.footer a:hover {
+  color: #ff33ff;
+  text-shadow: 0 0 8px #ff33ff;
+}
+
+.social-icons a {
+    font-size: 1.5rem;
+    margin: 0 15px;
+}

@@ -1,0 +1,31 @@
+# AutomatedPersonSearch/backend/requirements.txt
+# --- Web Framework and Utilities ---
+Flask
+Flask-CORS
+werkzeug                          # Dependency of Flask
+
+# --- Deep Learning Core (Installation details depend on GPU/CUDA setup) ---
+torch
+torchvision
+ultralytics                       # For YOLOv5 model handling (recommended over cloning the repo)
+opencv-python                     # For video processing (cv2)
+
+# --- Data Handling and Image Manipulation ---
+numpy
+pandas                            # Useful for handling detection logs and reports
+Pillow                            # Image manipulation library
+PyYAML                            # Common dependency for Ultralytics/ML libs
+tqdm                              # For progress bars (useful during video processing)
+
+# --- Database ORM ---
+SQLAlchemy                        # Core ORM
+mysql-connector-python            # Required if using MySQL (optional, as specified)
+
+# --- ML Utilities ---
+scikit-learn                      # For cosine similarity calculation
+
+# --- Report Generation ---
+reportlab                         # For PDF report generation
+
+# --- Optional Alerting/API Integration ---
+requests                          # General HTTP requests (e.g., for Telegram/Email alerts)
