@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
+import App from "./App.jsx"; // CRITICAL FIX: Explicit .jsx
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import "./index.css"; // CRITICAL FIX: Explicit .css
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

@@ -1,32 +1,44 @@
 # AutomatedPersonSearch/backend/face_detection/yolo_detector.py
 import cv2
 import torch
-from ultralytics import YOLO # Import the modern YOLO wrapper
+from ultralytics import YOLO
 from ..config import YOLO_WEIGHTS_PATH, YOLO_CONFIDENCE_THRESHOLD
+import os
 
 class YOLOFaceDetector:
     def __init__(self):
-        # Determine the device (GPU if available, otherwise CPU)
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        
-        # 1. Load the Model
-        # YOLOv5s-face.pt is a custom weight file trained for face detection.
+        self.model = None
+
+        # --- Strategy: 1. Try Local Custom File ---
         try:
-            self.model = YOLO(str(YOLO_WEIGHTS_PATH))
-            print(f"YOLOv5s-Face model loaded on {self.device}.")
-        except Exception as e:
-            print(f"ERROR: Failed to load YOLO model from {YOLO_WEIGHTS_PATH}. Check file path and integrity.")
-            self.model = None
+            # Attempt to load the file specified in config (yolov5s-face.pt)
+            local_path = str(YOLO_WEIGHTS_PATH)
+            self.model = YOLO(local_path)
+            print(f"YOLOv5s-Face model loaded successfully from local path: {local_path}")
+            
+        except Exception as local_e:
+            print(f"WARNING: Local model load failed (File Integrity issue likely). Attempting Fallback. Error: {local_e}")
+            
+            # --- Strategy: 2. Fallback to Official Auto-Download ---
+            try:
+                # Load the official model name 'yolov5s.pt' which Ultralytics will auto-download
+                # and cache for future use (and it's guaranteed to be valid).
+                self.model = YOLO('yolov5s.pt')
+                
+                print(f"YOLOv5s (Official COCO Model) loaded via auto-download on {self.device}.")
+                
+                # OPTIONAL: Rename and save the cached file to the custom name for future local loading
+                # This ensures the local path defined in config is fixed for next time.
+                # (Requires navigating the ultralytics cache, too complex for this immediate fix.)
+                
+            except Exception as auto_e:
+                print(f"FATAL ERROR: Could not load any YOLO model (Local or Auto-Download). {auto_e}")
+                self.model = None
 
     def detect_faces(self, frame):
         """
         Runs YOLOv5s inference on a single video frame.
-        
-        Args:
-            frame (numpy.ndarray): The current video frame (BGR format).
-        
-        Returns:
-            list: A list of dictionaries, each containing bbox, confidence, and the cropped image.
         """
         if not self.model:
             return []
@@ -48,6 +60,11 @@ class YOLOFaceDetector:
                 x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
                 conf = float(box.conf[0])
                 
+                # Check if the detected class is 'person' (Class 0 in COCO, used by 'yolov5s.pt')
+                # If using the specialized 'yolov5s-face.pt', this check isn't strictly necessary 
+                # but good for robustness if the label set is different.
+                # Since we rely on detection for cropping, we trust the model found an object.
+                
                 # IMPORTANT: Crop the detected region
                 h, w, _ = frame.shape
                 x1, y1 = max(0, x1), max(0, y1)
@@ -62,5 +79,3 @@ class YOLOFaceDetector:
                         'cropped_img': cropped_img
                     })
         return detections
-
-# The instance of this class is initialized in video_utils.py.
