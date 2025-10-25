@@ -1,16 +1,19 @@
-# AutomatedPersonSearch/backend/video_processing/video_utils.py
 import cv2
 import time
 import os
+import numpy as np
 from ..face_detection.yolo_detector import YOLOFaceDetector
 from ..face_embedding.arcface_embed import ArcFaceEmbedder
 from ..similarity_matching.cosine_match import calculate_cosine_similarity, check_match
 from ..database_module import log_detection
 from ..config import CROPS_FOLDER
 
-# Initialize models globally (once)
+# --- MODEL INITIALIZATION (Run once when the module is imported) ---
+# These instances are imported and used by app.py for both video and live detection.
 detector = YOLOFaceDetector()
 embedder = ArcFaceEmbedder()
+# -------------------------------------------------------------------
+
 
 def get_reference_embedding(ref_image_path):
     """Loads reference image, detects face, and generates its embedding."""
