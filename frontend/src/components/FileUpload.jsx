@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaUpload, FaSpinner } from "react-icons/fa";
-import DetectionResults from "./DetectionResults.jsx"; // Assuming DetectionResults is imported
+import Dashboard from "./Dashboard.jsx"; // ⬅️ CRITICAL FIX: Changed from DetectionResults.jsx
 
 export default function FileUpload() {
     const [videoFile, setVideoFile] = useState(null);
@@ -34,7 +34,7 @@ export default function FileUpload() {
     const handleUploadAndSearch = async (e) => {
         e.preventDefault();
         if (!videoFile || !refImageFile) {
-            alert("Please select both a video and a reference image.");
+            console.warn("Please select both a video and a reference image.");
             return;
         }
 
@@ -130,8 +130,9 @@ export default function FileUpload() {
                     <p>{error}</p>
                 </div>
             )}
+            {/* The Dashboard component is repurposed here to display immediate results */}
             {results && (
-                <DetectionResults results={results} videoFilename={videoFilename} />
+                <Dashboard results={results} videoFilename={videoFilename} />
             )}
         </div>
     );

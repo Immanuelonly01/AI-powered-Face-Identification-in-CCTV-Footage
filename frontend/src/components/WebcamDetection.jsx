@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { FaCamera, FaPlay, FaStop, FaSpinner } from "react-icons/fa";
 import axios from "axios";
-import Webcam from "react-webcam"; // Make sure you have installed react-webcam
+import Webcam from "react-webcam"; 
 
 // Set video constraints for the webcam
 const videoConstraints = {
@@ -45,11 +45,10 @@ export default function WebcamDetection() {
             const frameFile = base64StringtoFile(base64Img, `frame_${Date.now()}.jpeg`);
 
             const formData = new FormData();
-            formData.append("frame", frameFile); // New frame from webcam
+            formData.append("frame", frameFile); // Current frame from webcam
             formData.append("reference_image", referenceImg); // Reference image uploaded by user
 
             try {
-                // Use the proxied API endpoint /api/live_detect (You would need to implement this endpoint in Flask)
                 const response = await axios.post("/api/live_detect", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
@@ -102,6 +101,9 @@ export default function WebcamDetection() {
         setIsDetecting(false);
         setStatus("Detection stopped.");
     };
+
+    const handleReferenceUpload = e => setReferenceImage(e.target.files[0]);
+
 
     return (
         <div className="webcam-container text-center text-white my-5 p-6 bg-gray-800 rounded-lg shadow-2xl">
